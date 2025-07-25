@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TELESSAÚDE MISSIONÁRIA - Análise Profissional</title>
     <meta name="theme-color" content="#881337"/>
-    <link rel="manifest" href="manifest.json">
     
-    <!-- Ícones para PWA -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>">
+    <!-- PWA Manifest and Icons -->
+    <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Bibliotecas para geração de PDF -->
@@ -216,26 +216,6 @@
                 </div>
             </div>
 
-            <!-- SEÇÃO DE EMERGÊNCIAS -->
-            <div id="emergencies-page" class="page-section info-card">
-                <button type="button" class="back-to-dashboard-btn back-btn mb-6"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" /></svg>Voltar</button>
-                <h2 class="text-2xl font-semibold mb-6">Guias de Emergência</h2>
-                <p class="text-sm text-gray-500 mb-4">Informações de primeiros socorros para consulta rápida. Não substitui o julgamento clínico nem o atendimento de emergência profissional.</p>
-                <div id="emergency-list" class="space-y-3"></div>
-            </div>
-            <div id="emergency-detail-page" class="page-section info-card emergency-details">
-                <button type="button" class="back-to-emergencies-btn back-btn mb-6"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" /></svg>Voltar</button>
-                <h2 id="emergency-detail-title" class="text-2xl font-bold mb-4 text-red-700"></h2>
-                <div id="emergency-detail-content"></div>
-            </div>
-
-            <!-- SEÇÃO BIBLIOTECA DE SAÚDE -->
-            <div id="health-library-section" class="page-section info-card">
-                 <h2 class="text-2xl font-semibold mb-4">Biblioteca de Saúde</h2>
-                 <input type="text" id="library-search" placeholder="Buscar sintoma ou condição..." class="w-full p-2 border border-gray-300 rounded-lg mb-4">
-                 <div id="library-list" class="space-y-2 max-h-[60vh] overflow-y-auto"></div>
-            </div>
-
             <!-- SEÇÃO ASSISTENTE IA -->
             <div id="ai-assistant-page" class="page-section info-card">
                  <h2 class="text-2xl font-semibold mb-4">Assistente Médico IA</h2>
@@ -314,9 +294,9 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg>
             Assistente IA
         </button>
-        <button class="nav-btn" data-page="health-library-section">
-             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" /></svg>
-            Biblioteca
+        <button class="nav-btn" data-page="triage-page">
+             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
+            Triagem
         </button>
         <button class="nav-btn" data-page="help-section">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" /></svg>
