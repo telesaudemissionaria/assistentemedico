@@ -561,30 +561,36 @@
                     button.addEventListener('click', () => navigateTo('dashboard-section'));
                 });
                 
-                startAssessmentBtn.addEventListener('click', () => {
-                    profileModal.classList.remove('hidden');
-                });
+                if(startAssessmentBtn) {
+                    startAssessmentBtn.addEventListener('click', () => {
+                        profileModal.classList.remove('hidden');
+                    });
+                }
 
-                profileModal.addEventListener('click', e => {
-                    if (e.target.id === 'profile-selection-modal' || e.target.id === 'profile-modal-close-btn') {
-                        profileModal.classList.add('hidden');
-                        return;
-                    }
-                    const profileBtn = e.target.closest('[data-profile]');
-                    if (profileBtn) {
-                        const profileType = profileBtn.dataset.profile;
-                        profileModal.classList.add('hidden');
-                        if (profileType === 'kid') {
-                            navigateTo('pediatric-anamnesis-section');
-                        } else {
-                            navigateTo('adult-anamnesis-section');
+                if(profileModal) {
+                    profileModal.addEventListener('click', e => {
+                        if (e.target.id === 'profile-selection-modal' || e.target.id === 'profile-modal-close-btn') {
+                            profileModal.classList.add('hidden');
+                            return;
                         }
-                    }
-                });
+                        const profileBtn = e.target.closest('[data-profile]');
+                        if (profileBtn) {
+                            const profileType = profileBtn.dataset.profile;
+                            profileModal.classList.add('hidden');
+                            if (profileType === 'kid') {
+                                navigateTo('pediatric-anamnesis-section');
+                            } else {
+                                navigateTo('adult-anamnesis-section');
+                            }
+                        }
+                    });
+                }
                 
-                document.getElementById('generate-anamnesis-report-btn').addEventListener('click', () => handleGenerateReport(false));
-                kidsFormElements.generateBtn.addEventListener('click', () => handleGenerateReport(true));
-                aiAssistantElements.generateBtn.addEventListener('click', handleAIAssistant);
+                const adultReportBtn = document.getElementById('generate-anamnesis-report-btn');
+                if(adultReportBtn) adultReportBtn.addEventListener('click', () => handleGenerateReport(false));
+
+                if(kidsFormElements.generateBtn) kidsFormElements.generateBtn.addEventListener('click', () => handleGenerateReport(true));
+                if(aiAssistantElements.generateBtn) aiAssistantElements.generateBtn.addEventListener('click', handleAIAssistant);
 
                 // Anamnesis button group handler
                 document.querySelectorAll('.anamnesis-section .btn-group').forEach(group => {
@@ -597,8 +603,12 @@
                 });
 
                 // Other listeners
-                document.getElementById('pdf-report-btn').addEventListener('click', generatePDF);
-                document.getElementById('whatsapp-share-btn').addEventListener('click', handleWhatsappShare);
+                const pdfBtn = document.getElementById('pdf-report-btn');
+                if(pdfBtn) pdfBtn.addEventListener('click', generatePDF);
+
+                const whatsappBtn = document.getElementById('whatsapp-share-btn');
+                if(whatsappBtn) whatsappBtn.addEventListener('click', handleWhatsappShare);
+
                 document.querySelectorAll('.tab-btn').forEach(tab => {
                     tab.addEventListener('click', () => {
                         document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
@@ -614,5 +624,3 @@
     </script>
 </body>
 </html>
-
-                 
