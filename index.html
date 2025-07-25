@@ -71,15 +71,6 @@
         </div>
     </header>
 
-    <!-- Modal de Explicação de Exame -->
-    <div id="explanation-modal-overlay" class="modal-overlay hidden no-print">
-        <div class="modal-content">
-            <h3 id="explanation-modal-title" class="text-xl font-bold text-gray-800 mb-4"></h3>
-            <p id="explanation-modal-text" class="text-sm text-gray-600 mb-6"></p>
-            <button id="explanation-modal-close-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Entendi</button>
-        </div>
-    </div>
-
     <!-- Modal de Seleção de Perfil -->
     <div id="profile-selection-modal" class="modal-overlay hidden no-print">
         <div class="modal-content text-center">
@@ -330,13 +321,6 @@
     <script type="module">
         // --- SCRIPT START ---
         document.addEventListener('DOMContentLoaded', () => {
-            // --- DATA ---
-            const exams=[]; // Simplified for this version
-            const symptoms=[]; // Simplified for this version
-            const emergencies = [
-                { id: 'afogamento', name: "Afogamento", icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM6.22 8.22a.75.75 0 001.06 1.06L10 6.56l2.72 2.72a.75.75 0 101.06-1.06L10 4.44 6.22 8.22zM10 18a.75.75 0 01-.75-.75v-4.5a.75.75 0 011.5 0v4.5A.75.75 0 0110 18z" clip-rule="evenodd" /></svg>`, details: { title: "Afogamento", what_is: "Ocorre quando a submersão em líquido causa asfixia ou interfere na respiração, privando o corpo de oxigênio.", symptoms: "Pânico, incapacidade de falar, tosse, pele azulada (cianose), perda de consciência, ausência de respiração.", first_aid: "<b>1. Segurança:</b> Não entre na água se não for treinado. Tente alcançar com um objeto. <br><b>2. Chame Ajuda (192/193).</b><br><b>3. Verifique a Respiração.</b><br><b>4. Inicie com 5 Respirações de Resgate antes das compressões.</b><br><b>5. Se sem sinais de vida, inicie RCP (30 compressões para 2 respirações).</b><br><b>6. Aqueça a vítima.</b><br><em>A submersão em água fria pode prolongar a sobrevida (reflexo de mergulho).</em>" }},
-                { id: 'choque', name: "Choque", icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M11.983 1.904a1 1 0 00-1.966 0l-3.334 6.667-6.666 3.333a1 1 0 000 1.967l6.666 3.333 3.334 6.667a1 1 0 001.966 0l3.334-6.667 6.666-3.333a1 1 0 000-1.967l-6.666-3.333-3.334-6.667z" /></svg>`, details: { title: "Choque", what_is: "Uma condição com risco à vida onde o fluxo sanguíneo é baixo, diminuindo o fornecimento de oxigênio aos órgãos.", symptoms: "Pele fria, pálida e úmida; pulso fraco e rápido; respiração rápida; confusão, sonolência; perda de consciência.", first_aid: "<b>1. Ligue para 192.</b><br><b>2. Trate a Causa Óbvia (ex: hemorragia).</b><br><b>3. Deite a vítima e eleve as pernas</b> (se não houver lesão na coluna).<br><b>4. Mantenha a vítima aquecida.</b><br><b>5. Não dê nada para beber ou comer.</b>" }},
-            ];
             
             // --- STATE & DOM ELEMENTS ---
             let currentReportData = null;
@@ -344,7 +328,7 @@
 
             const pageSections = document.querySelectorAll('.page-section');
             const navButtons = document.querySelectorAll('.nav-btn');
-            const backButtons = document.querySelectorAll('.back-to-dashboard-btn, .back-to-emergencies-btn');
+            const backButtons = document.querySelectorAll('.back-to-dashboard-btn');
             
             const profileModal = document.getElementById('profile-selection-modal');
             const startAssessmentBtn = document.getElementById('start-assessment-btn');
@@ -359,10 +343,6 @@
                 resultText: document.getElementById('ai-result-text'),
                 loadingIndicator: document.getElementById('ai-loading-indicator')
             };
-            
-            const emergencyListContainer = document.getElementById('emergency-list');
-            const libraryListContainer = document.getElementById('library-list');
-            const librarySearchInput = document.getElementById('library-search');
 
             // --- NAVIGATION ---
             function navigateTo(pageId) {
@@ -383,9 +363,7 @@
                 const bibleVerses = [
                     { verse: "com saúde e cheios de força.", ref: "Jó 21:24 (NTLH)" },
                     { verse: "Elas darão vida longa e saúde a quem entendê-las.", ref: "Provérbios 4:22 (NTLH)" },
-                    { verse: "A alegria faz bem à saúde; estar sempre triste é morrer aos poucos.", ref: "Provérbios 17:22 (NTLH)" },
-                    { verse: "Os que têm saúde não precisam de médico, mas sim os doentes.", ref: "Lucas 5:31 (NTLH)" },
-                    { verse: "Quando estiverem doentes, de cama, o Senhor os ajudará e lhes dará saúde novamente.", ref: "Salmos 41:3 (NTLH)" }
+                    { verse: "A alegria faz bem à saúde; estar sempre triste é morrer aos poucos.", ref: "Provérbios 17:22 (NTLH)" }
                 ];
                 const container = document.getElementById('daily-verse-container');
                 const randomVerse = bibleVerses[Math.floor(Math.random() * bibleVerses.length)];
@@ -444,11 +422,11 @@
                 const btn = isKids ? kidsFormElements.generateBtn : document.getElementById('generate-anamnesis-report-btn');
                 btn.disabled = true; btn.innerHTML = `<div class="loader-small"></div><span class="ml-2">Analisando...</span>`;
                 
-                const apiKey = ""; 
+                const API_KEY = "AIzaSyBLKj7L2c4BEZwnSeD2s5PLDhrkkyiqr4A"; 
                 const schema = {type: "OBJECT",properties: {tablaResumen: {type: "ARRAY", items: {type: "OBJECT", properties: {parametro: {type: "STRING"}, valor: {type: "STRING"}, interpretacion: {type: "STRING"}}, required: ["parametro", "valor", "interpretacion"]}}, folhetoPaciente: {type: "OBJECT", properties: {titulo: {type: "STRING"}, oQueE: {type: "STRING"}, sinaisSintomas: {type: "STRING"}, causasFatoresRisco: {type: "STRING"}, possiveisComplicacoes: {type: "STRING"}, opcoesTratamento: {type: "STRING"}, quandoProcurarAjuda: {type: "STRING"}}, required: ["titulo", "oQueE", "sinaisSintomas", "causasFatoresRisco", "possiveisComplicacoes", "opcoesTratamento", "quandoProcurarAjuda"]}}, required: ["tablaResumen", "folhetoPaciente"]};
                 
                 try {
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
                     const payload = { contents: [{ parts: [{text: mainPrompt}] }], generationConfig: { responseMimeType: "application/json", responseSchema: schema } };
                     const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                     
@@ -468,7 +446,7 @@
                     }
                 } catch (error) {
                     console.error("Falha na chamada da API:", error);
-                    let userFriendlyMessage = "Ocorreu um erro ao gerar a análise. Por favor, verifique sua conexão com a internet e tente novamente.";
+                    let userFriendlyMessage = "Ocorreu um erro ao gerar a análise. Por favor, verifique sua conexão com a internet ou tente novamente.";
                     apiError.innerHTML = `<p class="font-bold">Erro na Análise</p><p>${userFriendlyMessage}</p>`;
                     apiError.classList.remove('hidden');
                     navigateTo('dashboard-section');
@@ -546,7 +524,7 @@
                         }]
                     };
 
-                    const API_KEY = ""; 
+                    const API_KEY = "AIzaSyBLKj7L2c4BEZwnSeD2s5PLDhrkkyiqr4A"; 
                     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
                     const response = await fetch(API_URL, {
@@ -619,7 +597,6 @@
                 });
 
                 // Other listeners
-                document.getElementById('explanation-modal-close-btn').addEventListener('click', () => document.getElementById('explanation-modal-overlay').classList.add('hidden'));
                 document.getElementById('pdf-report-btn').addEventListener('click', generatePDF);
                 document.getElementById('whatsapp-share-btn').addEventListener('click', handleWhatsappShare);
                 document.querySelectorAll('.tab-btn').forEach(tab => {
@@ -637,3 +614,5 @@
     </script>
 </body>
 </html>
+
+                 
