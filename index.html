@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TELESSAÚDE MISSIONÁRIA - Análise Profissional</title>
+    <title>ASSISTENTE MÉDICO - Análise Profissional</title>
     <meta name="theme-color" content="#881337"/>
     
     <!-- PWA Manifest and Icons -->
@@ -34,8 +34,9 @@
         .patient-handout p, .emergency-details p, .emergency-details li, .help-section p, .anamnesis-section p { line-height: 1.6; margin-bottom: 0.75rem; }
         .patient-handout .disclaimer { font-size: 0.875rem; font-style: italic; color: #6b7280; margin-top: 1.5rem; padding-top: 0.75rem; border-top: 1px solid #e5e7eb; }
         .info-card { background-color: white; border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); }
-        .category-card { border-radius: 1rem; padding: 1rem; text-align: center; transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer; }
+        .category-card { border-radius: 1rem; padding: 1rem; text-align: center; transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer; border: 1px solid #e5e7eb; }
         .category-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); }
+        .category-card .icon { font-size: 2.5rem; line-height: 1; margin-bottom: 0.5rem; }
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 50; backdrop-filter: blur(4px); transition: opacity 0.3s ease; }
         .modal-content { background: white; padding: 2rem; border-radius: 0.75rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; transform: scale(0.95); transition: transform 0.3s ease; }
         .modal-overlay:not(.hidden) .modal-content { transform: scale(1); }
@@ -56,7 +57,7 @@
         .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
         @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
         @media print {
-            .no-print, body > .modal-overlay, .app-header, main > .page-section:not(#report-output), .bottom-nav { display: none !important; }
+            .no-print, body > .modal-overlay, .app-header, main > .page-section:not(#report-output), .bottom-nav, #legal-footer { display: none !important; }
             body { background-color: white; padding-bottom: 0; }
             main, #report-output { display: block !important; visibility: visible !important; }
             .container, main, #report-output { margin: 0 !important; padding: 0 !important; box-shadow: none !important; }
@@ -69,7 +70,7 @@
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center"><svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg></div>
-                <span class="font-bold text-lg tracking-wide">TELESSAÚDE MISSIONÁRIA</span>
+                <span class="font-bold text-lg tracking-wide">ASSISTENTE MÉDICO</span>
             </div>
              <a href="https://telesaudemissionaria.github.io/site/" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold hover:bg-white/20 px-3 py-1.5 rounded-md transition-colors">
                  Visitar Site
@@ -90,6 +91,15 @@
         </div>
     </div>
 
+    <!-- Modal de Detalhes da Emergência -->
+    <div id="emergency-detail-modal" class="modal-overlay hidden no-print">
+        <div class="modal-content">
+            <h3 id="emergency-modal-title" class="text-xl font-bold text-gray-800 mb-4"></h3>
+            <div id="emergency-modal-content" class="text-gray-600 space-y-4"></div>
+            <button id="emergency-modal-close-btn" class="mt-6 w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg">Fechar</button>
+        </div>
+    </div>
+
     <div class="container mx-auto p-4 md:p-6 max-w-4xl">
         <main>
             <!-- SEÇÃO PRINCIPAL (DASHBOARD) -->
@@ -100,6 +110,17 @@
                     <button id="start-assessment-btn" class="mt-6 w-full max-w-sm mx-auto bg-rose-800 hover:bg-rose-700 text-white font-bold py-4 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
                         Iniciar Avaliação de Sintomas
                     </button>
+                </div>
+
+                <!-- NOVO BOTÃO DE EMERGÊNCIA -->
+                <div class="info-card bg-red-600 text-white text-center cursor-pointer hover:bg-red-700 transition-colors" id="emergency-btn-dashboard">
+                    <div class="flex items-center justify-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg>
+                        <h2 class="text-2xl font-bold">Guia de Emergências</h2>
+                    </div>
+                    <p class="mt-2 text-red-100">Acesso rápido a primeiros socorros. Funciona offline.</p>
                 </div>
                 
                  <div class="info-card bg-amber-50/50">
@@ -116,11 +137,11 @@
                  <button type="button" class="back-to-dashboard-btn back-btn mb-6"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" /></svg>Voltar</button>
                  <h2 class="text-2xl font-semibold mb-4">Anamnese Simplificada (Adulto)</h2>
                  <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded mb-6">
-                    <p class="font-bold">ATENÇÃO: EM CASO DE EMERGÊNCIA MÉDICA GRAVE, PROCURE AJUDA IMEDIATAMENTE.</p>
-                    <ul class="list-disc list-inside text-sm mt-2">
-                        <li>Perda de consciência, dificuldade respiratória severa, dor forte no peito.</li>
-                        <li>Fraqueza súbita, sangramento intenso, convulsões.</li>
-                    </ul>
+                     <p class="font-bold">ATENÇÃO: EM CASO DE EMERGÊNCIA MÉDICA GRAVE, PROCURE AJUDA IMEDIATAMENTE.</p>
+                     <ul class="list-disc list-inside text-sm mt-2">
+                         <li>Perda de consciência, dificuldade respiratória severa, dor forte no peito.</li>
+                         <li>Fraqueza súbita, sangramento intenso, convulsões.</li>
+                     </ul>
                  </div>
                  <!-- Parte 1 -->
                  <h3>Motivo da Consulta</h3>
@@ -139,18 +160,18 @@
                  <div class="form-group"><label class="form-label" for="anamnesis-adult-q10">10. Possui alguma alergia?</label><input type="text" id="anamnesis-adult-q10" class="form-input"></div>
 
                  <div class="mt-8 pt-6 border-t flex justify-center">
-                    <button type="button" id="generate-anamnesis-report-btn" class="flex items-center justify-center bg-rose-800 hover:bg-rose-700 text-white font-bold py-3 px-8 rounded-full shadow-lg">
-                        Gerar Análise
-                    </button>
-                </div>
+                     <button type="button" id="generate-anamnesis-report-btn" class="flex items-center justify-center bg-rose-800 hover:bg-rose-700 text-white font-bold py-3 px-8 rounded-full shadow-lg">
+                         Gerar Análise
+                     </button>
+                 </div>
             </div>
 
             <!-- FORMULÁRIO DE ANAMNESE (KIDS) -->
             <div id="pediatric-anamnesis-section" class="page-section info-card anamnesis-section">
-                <button type="button" class="back-to-dashboard-btn back-btn mb-6"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" /></svg>Voltar</button>
-                <h2 class="text-2xl font-semibold text-sky-800 mb-4">Anamnese Pediátrica (KIDS)</h2>
-                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded mb-6">
-                    <p class="font-bold">ATENÇÃO: EM CASO DE EMERGÊNCIA, PROCURE AJUDA IMEDIATAMENTE.</p>
+                 <button type="button" class="back-to-dashboard-btn back-btn mb-6"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" /></svg>Voltar</button>
+                 <h2 class="text-2xl font-semibold text-sky-800 mb-4">Anamnese Pediátrica (KIDS)</h2>
+                 <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded mb-6">
+                     <p class="font-bold">ATENÇÃO: EM CASO DE EMERGÊNCIA, PROCURE AJUDA IMEDIATAMENTE.</p>
                  </div>
                  <h3>Informações Básicas</h3>
                  <div class="form-group"><label class="form-label" for="anamnesis-ped-q1">1. A criança possui alguma doença conhecida ou alergia?</label><input type="text" id="anamnesis-ped-q1" class="form-input"></div>
@@ -168,52 +189,62 @@
                  <div class="form-group"><label class="form-label" for="anamnesis-ped-q11">11. Apareceu alguma mancha ou lesão na pele?</label><input type="text" id="anamnesis-ped-q11" class="form-input"></div>
 
                 <div class="mt-8 pt-6 border-t flex justify-center">
-                    <button type="button" id="generate-kids-report-btn" class="flex items-center justify-center bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-8 rounded-full shadow-lg">
-                        Gerar Análise Pediátrica
-                    </button>
+                     <button type="button" id="generate-kids-report-btn" class="flex items-center justify-center bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-8 rounded-full shadow-lg">
+                         Gerar Análise Pediátrica
+                     </button>
+                 </div>
+            </div>
+
+            <!-- NOVA SEÇÃO DE EMERGÊNCIAS -->
+            <div id="emergency-section" class="page-section info-card">
+                <button type="button" class="back-to-dashboard-btn back-btn mb-6"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" /></svg>Voltar</button>
+                <h2 class="text-2xl font-semibold mb-2">Guia de Emergências</h2>
+                <p class="text-sm text-gray-500 mb-6">Orientações de primeiros socorros para situações comuns. Este guia está disponível offline.</p>
+                <div id="emergency-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <!-- Cards de emergência serão inseridos aqui pelo JS -->
                 </div>
             </div>
 
              <!-- SEÇÃO DE TRIAGEM DE EMERGÊNCIA -->
             <div id="triage-page" class="page-section info-card space-y-4">
-                <button type="button" class="back-to-dashboard-btn back-btn mb-6"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" /></svg>Voltar</button>
-                <h2 class="text-2xl font-semibold mb-6">Triagem de Emergência</h2>
-                <p class="text-sm text-gray-500 mb-4">Entenda os níveis de urgência para saber quando procurar ajuda. Esta é uma orientação e não substitui a avaliação de um profissional.</p>
+                 <button type="button" class="back-to-dashboard-btn back-btn mb-6"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" /></svg>Voltar</button>
+                 <h2 class="text-2xl font-semibold mb-6">Triagem de Emergência</h2>
+                 <p class="text-sm text-gray-500 mb-4">Entenda os níveis de urgência para saber quando procurar ajuda. Esta é uma orientação e não substitui a avaliação de um profissional.</p>
 
-                <!-- Nível 1: Risco de Vida Imediato -->
-                <div class="border-l-4 border-red-600 bg-red-50 p-4 rounded-r-lg">
-                    <h3 class="font-bold text-lg text-red-800">Tratamento imediato necessário (em até 2 minutos)</h3>
-                    <p class="text-sm font-semibold text-red-700">Condição com risco de vida imediato.</p>
-                    <p class="mt-2 text-gray-700">Pessoas nesta categoria têm as condições mais graves e com risco de vida, como parada cardíaca (ataque cardíaco) ou ferimentos graves.</p>
-                </div>
+                 <!-- Nível 1: Risco de Vida Imediato -->
+                 <div class="border-l-4 border-red-600 bg-red-50 p-4 rounded-r-lg">
+                     <h3 class="font-bold text-lg text-red-800">Tratamento imediato necessário (em até 2 minutos)</h3>
+                     <p class="text-sm font-semibold text-red-700">Condição com risco de vida imediato.</p>
+                     <p class="mt-2 text-gray-700">Pessoas nesta categoria têm as condições mais graves e com risco de vida, como parada cardíaca (ataque cardíaco) ou ferimentos graves.</p>
+                 </div>
 
-                <!-- Nível 2: Urgente -->
-                <div class="border-l-4 border-orange-500 bg-orange-50 p-4 rounded-r-lg">
-                    <h3 class="font-bold text-lg text-orange-800">Tratamento urgente necessário (em 10 minutos)</h3>
-                    <p class="text-sm font-semibold text-orange-700">Condição com risco iminente de vida.</p>
-                    <p class="mt-2 text-gray-700">Pessoas nesta categoria podem estar sofrendo de fortes dores no peito, dificuldade em respirar ou fraturas graves.</p>
-                </div>
+                 <!-- Nível 2: Urgente -->
+                 <div class="border-l-4 border-orange-500 bg-orange-50 p-4 rounded-r-lg">
+                     <h3 class="font-bold text-lg text-orange-800">Tratamento urgente necessário (em 10 minutos)</h3>
+                     <p class="text-sm font-semibold text-orange-700">Condição com risco iminente de vida.</p>
+                     <p class="mt-2 text-gray-700">Pessoas nesta categoria podem estar sofrendo de fortes dores no peito, dificuldade em respirar ou fraturas graves.</p>
+                 </div>
 
-                <!-- Nível 3: Grave -->
-                <div class="border-l-4 border-yellow-500 bg-yellow-50 p-4 rounded-r-lg">
-                    <h3 class="font-bold text-lg text-yellow-800">Condição grave (em 30 minutos)</h3>
-                    <p class="text-sm font-semibold text-yellow-700">Condição potencialmente fatal.</p>
-                    <p class="mt-2 text-gray-700">Pessoas nesta categoria podem ter dor moderadamente intensa que requer forte alívio da dor, sangramento intenso de cortes, fraturas graves ou estão gravemente desidratadas.</p>
-                </div>
+                 <!-- Nível 3: Grave -->
+                 <div class="border-l-4 border-yellow-500 bg-yellow-50 p-4 rounded-r-lg">
+                     <h3 class="font-bold text-lg text-yellow-800">Condição grave (em 30 minutos)</h3>
+                     <p class="text-sm font-semibold text-yellow-700">Condição potencialmente fatal.</p>
+                     <p class="mt-2 text-gray-700">Pessoas nesta categoria podem ter dor moderadamente intensa que requer forte alívio da dor, sangramento intenso de cortes, fraturas graves ou estão gravemente desidratadas.</p>
+                 </div>
 
-                <!-- Nível 4: Moderada -->
-                <div class="border-l-4 border-blue-500 bg-blue-50 p-4 rounded-r-lg">
-                    <h3 class="font-bold text-lg text-blue-800">Condição moderada (dentro de 1 hora)</h3>
-                    <p class="text-sm font-semibold text-blue-700">Condição potencialmente grave.</p>
-                    <p class="mt-2 text-gray-700">Pessoas nesta categoria podem estar vomitando ou ter diarreia sem desidratação, inflamação ocular, corpo estranho no olho ou pequeno trauma nos membros.</p>
-                </div>
+                 <!-- Nível 4: Moderada -->
+                 <div class="border-l-4 border-blue-500 bg-blue-50 p-4 rounded-r-lg">
+                     <h3 class="font-bold text-lg text-blue-800">Condição moderada (dentro de 1 hora)</h3>
+                     <p class="text-sm font-semibold text-blue-700">Condição potencialmente grave.</p>
+                     <p class="mt-2 text-gray-700">Pessoas nesta categoria podem estar vomitando ou ter diarreia sem desidratação, inflamação ocular, corpo estranho no olho ou pequeno trauma nos membros.</p>
+                 </div>
 
-                <!-- Nível 5: Não Urgente -->
-                <div class="border-l-4 border-green-500 bg-green-50 p-4 rounded-r-lg">
-                    <h3 class="font-bold text-lg text-green-800">Condição não urgente (dentro de 2 horas)</h3>
-                    <p class="text-sm font-semibold text-green-700">Condição menos urgente.</p>
-                    <p class="mt-2 text-gray-700">Pessoas nesta categoria podem ter doenças ou sintomas menores, como erupções cutâneas ou dores menores, que também podem ser tratadas por outros profissionais de saúde.</p>
-                </div>
+                 <!-- Nível 5: Não Urgente -->
+                 <div class="border-l-4 border-green-500 bg-green-50 p-4 rounded-r-lg">
+                     <h3 class="font-bold text-lg text-green-800">Condição não urgente (dentro de 2 horas)</h3>
+                     <p class="text-sm font-semibold text-green-700">Condição menos urgente.</p>
+                     <p class="mt-2 text-gray-700">Pessoas nesta categoria podem ter doenças ou sintomas menores, como erupções cutâneas ou dores menores, que também podem ser tratadas por outros profissionais de saúde.</p>
+                 </div>
             </div>
 
             <!-- SEÇÃO ASSISTENTE IA -->
@@ -221,74 +252,159 @@
                  <h2 class="text-2xl font-semibold mb-4">Assistente Médico IA</h2>
                  <p class="text-xs text-gray-400 mb-4">As respostas são geradas por IA e precisam de validação profissional.</p>
                  <div class="mb-4">
-                    <label for="ai-prompt-input" class="block text-sm font-medium text-gray-700 mb-2">Faça uma pergunta médica (ex: "Quais os sintomas de dengue?"):</label>
-                    <textarea id="ai-prompt-input" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
-                </div>
+                     <label for="ai-prompt-input" class="block text-sm font-medium text-gray-700 mb-2">Faça uma pergunta médica (ex: "Quais os sintomas de dengue?"):</label>
+                     <textarea id="ai-prompt-input" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
+                 </div>
                 <button id="ai-generate-btn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg>
-                    Consultar IA
-                </button>
-                <div id="ai-result-container" class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200 min-h-[100px]">
-                    <h3 class="font-semibold text-gray-800 mb-2">Resposta:</h3>
-                    <div id="ai-loading-indicator" class="typing-indicator hidden">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                    <p id="ai-result-text" class="text-gray-700 whitespace-pre-wrap"></p>
-                </div>
+                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg>
+                     Consultar IA
+                 </button>
+                 <div id="ai-result-container" class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200 min-h-[100px]">
+                     <h3 class="font-semibold text-gray-800 mb-2">Resposta:</h3>
+                     <div id="ai-loading-indicator" class="typing-indicator hidden">
+                         <span></span>
+                         <span></span>
+                         <span></span>
+                     </div>
+                     <p id="ai-result-text" class="text-gray-700 whitespace-pre-wrap"></p>
+                 </div>
             </div>
 
             <!-- SEÇÃO DE AJUDA (FAQ) -->
             <div id="help-section" class="page-section info-card help-section">
-                <h2 class="text-2xl font-semibold mb-6">Ajuda e Perguntas Frequentes</h2>
+                 <h2 class="text-2xl font-semibold mb-6">Ajuda e Perguntas Frequentes</h2>
                 
-                <h3>A Telessaúde Missionária quer substituir meu médico?</h3>
-                <p>A Telessaúde Missionária foi criada por médicos para apoiar, e não substituir, o cuidado médico humano. Assim como os profissionais que se formam e treinam com casos reais, nossa ferramenta serve de apoio e nunca atua de forma autônoma.</p>
+                 <h3>O Assistente Médico quer substituir meu médico?</h3>
+                 <p>O Assistente Médico foi criado para apoiar, e não substituir, o cuidado médico humano. Assim como os profissionais que se formam e treinam com casos reais, nossa ferramenta serve de apoio e nunca atua de forma autônoma.</p>
                 
-                <h3>Como editar meu perfil e adicionar mais informações?</h3>
-                <p>No momento, o aplicativo não armazena perfis permanentes para garantir a simplicidade e o uso offline. Cada avaliação começa com informações novas. Estamos explorando formas seguras de adicionar perfis no futuro.</p>
+                 <h3>Como editar meu perfil e adicionar mais informações?</h3>
+                 <p>No momento, o aplicativo não armazena perfis permanentes para garantir a simplicidade e o uso offline. Cada avaliação começa com informações novas. Estamos explorando formas seguras de adicionar perfis no futuro.</p>
                 
-                <h3>Meus dados são compartilhados com terceiros?</h3>
-                <p>Não. Seus dados são processados para a análise e depois descartados. Não são armazenados nem compartilhados, a menos que você mesmo compartilhe o relatório gerado. Consulte nossa Política de Privacidade para mais detalhes.</p>
+                 <h3>Meus dados são compartilhados com terceiros?</h3>
+                 <p>Não. Seus dados são processados para a análise e depois descartados. Não são armazenados nem compartilhados, a menos que você mesmo compartilhe o relatório gerado. Consulte nossa Política de Privacidade para mais detalhes.</p>
                 
-                <h3>A Telessaúde Missionária fornece diagnóstico ou tratamento médico?</h3>
-                <p>A Telessaúde Missionária não diagnostica, mas ajuda a identificar possíveis causas dos sintomas. É uma ferramenta de autoconhecimento e orientação — não substitui o atendimento profissional. Caso suspeite de condição séria, procure imediatamente um profissional de saúde.</p>
+                 <h3>O Assistente Médico fornece diagnóstico ou tratamento médico?</h3>
+                 <p>O Assistente Médico não diagnostica, mas ajuda a identificar possíveis causas dos sintomas. É uma ferramenta de autoconhecimento e orientação — não substitui o atendimento profissional. Caso suspeite de condição séria, procure imediatamente um profissional de saúde.</p>
                 
-                <h3>E se houver erro ou queda no diagnóstico?</h3>
-                <p>A ferramenta auxilia com base em dados e evidências, mas não é infalível. Sempre confirme os resultados com um médico, especialmente se os sintomas persistirem ou piorarem.</p>
+                 <h3>E se houver erro ou queda no diagnóstico?</h3>
+                 <p>A ferramenta auxilia com base em dados e evidências, mas não é infalível. Sempre confirme os resultados com um médico, especialmente se os sintomas persistirem ou piorarem.</p>
                 
-                <h3>Não consegui encontrar meu sintoma — o que faço?</h3>
-                <p>Nossa equipe de especialistas está atualizando constantemente o sistema. Caso não encontre o sintoma ou condição desejada, por favor, escreva para: missionarymedicalcare@gmail.com. Estamos aqui para melhorar e servir você com cuidado.</p>
+                 <h3>Não consegui encontrar meu sintoma — o que faço?</h3>
+                 <p>Nossa equipe de especialistas está atualizando constantemente o sistema. Caso não encontre o sintoma ou condição desejada, por favor, escreva para: missionarymedicalcare@gmail.com. Estamos aqui para melhorar e servir você com cuidado.</p>
 
-                <h3>Contato</h3>
-                <p>Converse com a equipe da Telessaúde Missionária no WhatsApp: <a href="https://wa.me/message/DY63DAZ7BSHKL1" target="_blank" rel="noopener noreferrer" class="text-rose-700 font-semibold hover:underline">Clique aqui para iniciar a conversa</a>.</p>
+                 <h3>Contato</h3>
+                 <p>Converse com a equipe do Assistente Médico no WhatsApp: <a href="https://wa.me/message/DY63DAZ7BSHKL1" target="_blank" rel="noopener noreferrer" class="text-rose-700 font-semibold hover:underline">Clique aqui para iniciar a conversa</a>.</p>
             </div>
 
             <!-- SEÇÕES DE RESULTADO -->
             <div id="form-error-message" class="hidden bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 my-6 rounded" role="alert"></div>
             <div id="loading-section" class="page-section text-center my-10"><div class="loader ease-linear rounded-full border-8 h-24 w-24 mx-auto"></div><p class="mt-4 text-lg">Analisando dados...</p></div>
             <div id="api-error-message" class="page-section hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-4 my-6 rounded" role="alert"></div>
-             <div id="report-output" class="page-section info-card mt-6">
-                 <button type="button" class="back-to-dashboard-btn back-btn mb-6 no-print"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" /></svg>Voltar</button>
-                 <div class="border-b mb-4 flex justify-between items-center no-print">
-                     <nav class="tab-buttons -mb-px flex space-x-6" aria-label="Tabs"><button class="tab-btn active py-2 px-1" data-tab="folheto-paciente-section">Orientação</button><button class="tab-btn py-2 px-1" data-tab="tabla-resumen-section">Tabela</button></nav>
-                     <div id="report-actions" class="flex flex-col sm:flex-row gap-3">
-                        <button id="whatsapp-share-btn" class="flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">WhatsApp</button>
-                        <button id="pdf-report-btn" class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Gerar PDF</button>
-                    </div>
-                 </div>
-                 <div id="folheto-paciente-section" class="tab-content active space-y-4 patient-handout"></div>
-                 <div id="tabla-resumen-section" class="tab-content overflow-x-auto"></div>
-             </div>
+              <div id="report-output" class="page-section info-card mt-6">
+                   <button type="button" class="back-to-dashboard-btn back-btn mb-6 no-print"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" /></svg>Voltar</button>
+                   <div class="border-b mb-4 flex justify-between items-center no-print">
+                       <nav class="tab-buttons -mb-px flex space-x-6" aria-label="Tabs"><button class="tab-btn active py-2 px-1" data-tab="folheto-paciente-section">Orientação</button><button class="tab-btn py-2 px-1" data-tab="tabla-resumen-section">Tabela</button></nav>
+                       <div id="report-actions" class="flex flex-col sm:flex-row gap-3">
+                           <button id="whatsapp-share-btn" class="flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">WhatsApp</button>
+                           <button id="pdf-report-btn" class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Gerar PDF</button>
+                       </div>
+                   </div>
+                   <div id="folheto-paciente-section" class="tab-content active space-y-4 patient-handout"></div>
+                   <div id="tabla-resumen-section" class="tab-content overflow-x-auto"></div>
+               </div>
         </main>
     </div>
+
+    <!-- NOVA SEÇÃO DE RODAPÉ LEGAL -->
+    <footer id="legal-footer" class="no-print bg-gray-800 text-gray-400 text-xs py-8 px-4 mt-8">
+        <div class="container mx-auto max-w-4xl space-y-6">
+            <div>
+                <h2 class="font-bold text-sm text-white mb-2">DISCLAIMER (AVISO LEGAL)</h2>
+                <p class="font-bold mb-2">IMPORTANTE:</p>
+                <p class="mb-2">O aplicativo ASSISTENTE MÉDICO é um serviço de orientação em saúde prestado por meio de telemedicina com propósito estritamente missionário, social e educativo. As informações, orientações e atendimentos fornecidos não substituem, em hipótese alguma, uma consulta presencial com médico ou profissional de saúde qualificado.</p>
+                <h3 class="font-semibold text-gray-200 mb-1">Limitações do Serviço:</h3>
+                <ul class="list-disc list-inside space-y-1 mb-2">
+                    <li>As informações fornecidas são baseadas nos dados informados pelo próprio usuário e podem não refletir todas as condições de saúde do paciente.</li>
+                    <li>O serviço não realiza consultas presenciais, exames físicos completos, prescrições de medicamentos controlados ou atendimentos de emergência.</li>
+                    <li>Em caso de emergência médica, ligue imediatamente para os serviços de emergência locais ou procure o hospital mais próximo.</li>
+                </ul>
+                <h3 class="font-semibold text-gray-200 mb-1">Responsabilidade:</h3>
+                <ul class="list-disc list-inside space-y-1 mb-2">
+                    <li>O uso do Aplicativo é de responsabilidade exclusiva do usuário.</li>
+                    <li>A equipe missionária e os profissionais de saúde envolvidos não se responsabilizam por eventuais consequências decorrentes de informações incompletas, uso inadequado do aplicativo ou decisões tomadas exclusivamente com base nas orientações fornecidas.</li>
+                    <li>O usuário declara estar ciente de que os atendimentos são realizados por voluntários capacitados, podendo envolver limitações técnicas, de idioma ou de acesso à tecnologia.</li>
+                </ul>
+                 <h3 class="font-semibold text-gray-200 mb-1">Consentimento:</h3>
+                <ul class="list-disc list-inside space-y-1">
+                    <li>Ao utilizar o Aplicativo, o usuário declara ter lido, entendido e aceitado este Aviso Legal, bem como a Política de Privacidade.</li>
+                    <li>O uso do Aplicativo implica aceitação expressa dos riscos e limitações descritos.</li>
+                </ul>
+            </div>
+            <div>
+                <h2 class="font-bold text-sm text-white mb-2">POLÍTICA DE PRIVACIDADE</h2>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-semibold text-gray-200 mb-1">1. Coleta de Dados Pessoais</h3>
+                        <p>Coletamos apenas as informações pessoais estritamente necessárias para prestar serviços de orientação em saúde, como nome, idade, gênero, dados de contato e histórico médico informado voluntariamente pelo usuário. Não solicitamos informações excessivas ou desnecessárias.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-200 mb-1">2. Uso dos Dados</h3>
+                        <p class="mb-1">Seus dados são utilizados exclusivamente para:</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Prestação de orientações em saúde via telemedicina;</li>
+                            <li>Registro de atendimentos para fins estatísticos, de auditoria e aprimoramento do serviço;</li>
+                            <li>Cumprimento de obrigações legais e regulatórias.</li>
+                        </ul>
+                         <p class="mt-2">Não utilizamos os dados para fins comerciais, publicitários ou de venda a terceiros.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-200 mb-1">3. Compartilhamento de Dados</h3>
+                        <p class="mb-1">Os dados podem ser compartilhados, de forma segura e restrita, apenas com:</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Profissionais de saúde autorizados e diretamente envolvidos no atendimento;</li>
+                            <li>Autoridades de saúde pública, em caso de obrigações legais ou emergências epidemiológicas;</li>
+                            <li>Plataformas tecnológicas parceiras, apenas para viabilizar a operação técnica do Aplicativo, observando padrões de segurança e confidencialidade.</li>
+                        </ul>
+                         <p class="mt-2">Jamais vendemos, alugamos ou divulgamos seus dados a terceiros não autorizados.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-200 mb-1">4. Armazenamento e Segurança</h3>
+                        <p>Adotamos medidas técnicas e administrativas para proteger seus dados contra acessos não autorizados, perda, alteração ou destruição. Os dados são armazenados de forma criptografada e segura, pelo tempo necessário para a prestação do serviço ou cumprimento de exigências legais.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-200 mb-1">5. Direitos do Usuário</h3>
+                        <p class="mb-1">Você tem direito a:</p>
+                        <ul class="list-disc list-inside space-y-1">
+                           <li>Solicitar acesso, retificação, correção ou exclusão dos seus dados pessoais;</li>
+                           <li>Revogar o consentimento para o uso dos seus dados, quando aplicável, sem prejuízo da legalidade do tratamento anterior;</li>
+                           <li>Obter informações sobre o uso e tratamento dos seus dados.</li>
+                        </ul>
+                        <p class="mt-2">Para exercer esses direitos, entre em contato pelo canal: missionarymedicalcare@gmail.com.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-200 mb-1">6. Transferência Internacional de Dados</h3>
+                        <p>Caso haja transferência de dados para outros países, garantimos que isso será feito conforme a legislação aplicável e com salvaguardas adequadas de segurança e privacidade.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-200 mb-1">7. Atualizações</h3>
+                        <p>Esta Política poderá ser atualizada a qualquer momento, mediante aviso prévio pelo Aplicativo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- BARRA DE NAVEGAÇÃO INFERIOR -->
     <footer class="bottom-nav no-print">
         <button class="nav-btn active" data-page="dashboard-section">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" /></svg>
             Início
+        </button>
+        <button class="nav-btn" data-page="emergency-section">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+            </svg>
+            Emergências
         </button>
         <button class="nav-btn" data-page="ai-assistant-page">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg>
@@ -308,6 +424,19 @@
         // --- SCRIPT START ---
         document.addEventListener('DOMContentLoaded', () => {
             
+            // --- PWA Service Worker Registration ---
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('./service-worker.js')
+                        .then(registration => {
+                            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                        })
+                        .catch(err => {
+                            console.log('ServiceWorker registration failed: ', err);
+                        });
+                });
+            }
+
             // --- STATE & DOM ELEMENTS ---
             let currentReportData = null;
             let anamnesisData = {};
@@ -318,6 +447,7 @@
             
             const profileModal = document.getElementById('profile-selection-modal');
             const startAssessmentBtn = document.getElementById('start-assessment-btn');
+            const emergencyBtnDashboard = document.getElementById('emergency-btn-dashboard');
             
             const kidsFormElements = {
                 generateBtn: document.getElementById('generate-kids-report-btn')
@@ -340,6 +470,7 @@
             // --- INITIALIZATION ---
             function initialize() {
                 displayDailyVerse();
+                renderEmergencyGrid();
                 setupEventListeners();
                 navigateTo('dashboard-section');
             }
@@ -354,6 +485,61 @@
                 const container = document.getElementById('daily-verse-container');
                 const randomVerse = bibleVerses[Math.floor(Math.random() * bibleVerses.length)];
                 container.innerHTML = `<blockquote class="text-lg italic text-gray-700 font-lora">“${randomVerse.verse}”</blockquote><cite class="block text-right not-italic font-bold text-sm mt-2 text-rose-800/80">${randomVerse.ref}</cite>`;
+            }
+
+            // --- EMERGENCY GUIDE LOGIC ---
+            const emergencyData = [
+                { "id": "afogamento", "titulo": "Afogamento", "icone": "💧", "resumo": "Submersão em líquido causa hipóxia e risco a órgãos vitais. Socorro inicial: desobstruir vias aéreas, iniciar RCP (30:2), colocar em decúbito lateral se respirando, aquecer conforme necessário.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/afogamento/afogamento" },
+                { "id": "choque", "titulo": "Choque", "icone": "⚡️", "resumo": "Falência circulatória aguda com baixa perfusão tecidual. Socorro inicial: deitar com elevação das pernas, cobrir com cobertor, evitar movimentação brusca e buscar socorro médico.", "link": "https://www.msdmanuals.com/pt/casa/distúrbios-do-coração-e-dos-vasos-sanguíneos/hipotensão-arterial-e-choque/choque" },
+                { "id": "doenca_altitude", "titulo": "Doença da altitude", "icone": "🏔️", "resumo": "Cefaleia, náusea, fadiga e falta de ar por baixa pressão de oxigênio. Recomenda-se descer a altitude inferior, hidratar-se e descansar; evacuar se grave.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/doença-da-altitude/doença-da-altitude" },
+                { "id": "entorses_estiramentos", "titulo": "Entorses e estiramentos", "icone": "🤕", "resumo": "Lesão ligamentar ou muscular por torção. Aplicar técnica RICE: descanso, gelo, compressão e elevação; imobilizar e evitar sobrecarga.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/lesões-dos-tecidos-moles" },
+                { "id": "feridas", "titulo": "Feridas", "icone": "🩹", "resumo": "Cortes ou lacerações. Limpar com água, desinfetar, aplicar pressão para estancar sangramento e cobrir com curativo estéril. Observar sinais de infecção.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/feridas" },
+                { "id": "fraturas", "titulo": "Fraturas", "icone": "🦴", "resumo": "Quebra óssea com dor, inchaço ou deformidade. Imobilizar com talas improvisadas, aplicar gelo, evitar movimentar e buscar atendimento médico.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/fraturas/considerações-gerais-sobre-fraturas" },
+                { "id": "insolacao", "titulo": "Insolação", "icone": "☀️", "resumo": "Golpe de calor com febre alta, confusão ou inconsciência. Levar a vítima a local fresco, hidratar, aplicar compressas frias e buscar ajuda imediata.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/distúrbios-causados-pelo-calor/insolação" },
+                { "id": "eletricidade", "titulo": "Lesões por eletricidade", "icone": "🔌", "resumo": "Choque elétrico pode causar queimaduras, convulsões ou parada cardíaca. Desligar fonte, só tocar após isolamento; se inconsciente ou sem pulso, iniciar RCP.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-por-eletricidade-e-raios/lesões-provocadas-pela-eletricidade" },
+                { "id": "raios", "titulo": "Lesões por raios", "icone": "🌩️", "resumo": "Descarga elétrica atmosférica pode provocar queimaduras e parada cardíaca. Afaste a vítima da zona de risco, trate feridas e inicie RCP se necessário.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-por-eletricidade-e-raios/lesões-provocadas-por-raios" },
+                { "id": "mordida_humana", "titulo": "Mordida humana", "icone": "😬", "resumo": "Risco de infeção bacteriana. Lavar com água e sabão, aplicar antisséptico, cobrir e buscar avaliação médica para possível profilaxia.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordida-humana" },
+                { "id": "mordida_animal", "titulo": "Mordida de animal", "icone": "🐾", "resumo": "Mordidas podem transmitir raiva ou infeção. Lavar bem, desinfetar, cobrir e procurar atendimento médico para vacina ou soro.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordidas-de-animais" },
+                { "id": "mordida_serpente", "titulo": "Mordida de serpente", "icone": "🐍", "resumo": "Veneno pode causar necrose, choque ou neurotoxicidade. Manter vítima calma, imobilizada e buscar socorro urgente. Evitar torniquetes ou sucção.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordidas-de-serpentes" },
+                { "id": "obstrucao_respiratoria", "titulo": "Obstrução das vias respiratórias", "icone": "😮", "resumo": "Objeto bloqueando traqueia pode causar asfixia. Aplicar manobra de Heimlich em adultos; em bebês, tapas nas costas e compressões torácicas; iniciar RCP se inconsciente.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/obstrução-das-vias-respiratórias" },
+                { "id": "queimadura_quimica_olho", "titulo": "Queimadura química nos olhos", "icone": "👁️", "resumo": "Substância corrosiva nos olhos. Lavar com água corrente por pelo menos 15 minutos sem esfregar, cobrir e buscar atendimento oftalmológico urgente.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-oculares/queimaduras-no-olho" },
+                { "id": "parada_cardiaca", "titulo": "Parada cardíaca", "icone": "❤️‍🩹", "resumo": "Interrupção súbita da circulação sanguínea. Verificar pulso, chamar ajuda, iniciar RCP 30:2 imediatamente. Desfibrilar se disponível.", "link": "https://www.msdmanuals.com/pt/casa/distúrbios-do-coração-e-dos-vasos-sanguíneos/parada-cardíaca-e-reanimação-cardiopulmonar-rcp/parada-cardíaca-e-reanimação-cardiopulmonar-rcp" },
+                { "id": "picadas_insetos", "titulo": "Picadas de insetos", "icone": "🐝", "resumo": "Reação alérgica possível (anafilaxia). Remover ferrão sem espremer, lavar local, aplicar compressa fria e observar sinais de reação grave como inchaço facial ou dificuldade respiratória.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/picadas-de-abelhas-vespas-vespões-e-formigas" },
+                { "id": "prioridades_primeiros_socorros", "titulo": "Prioridades dos Primeiros Socorros", "icone": "🚑", "resumo": "Avaliação ABC: A (vias aéreas), B (respiração), C (circulação). Verifique sinais vitais e priorize ações vitais conforme necessidade.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/prioridades-dos-primeiros-socorros-de-emergência" },
+                { "id": "queimaduras", "titulo": "Queimaduras", "icone": "🔥", "resumo": "Queimaduras por calor, químicos ou radiação. Resfriar com água corrente por 10‑20 min; cobrir com pano limpo e úmido; não aplicar substâncias caseiras; buscar socorro em casos graves.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/queimaduras/inalação-de-fumaça" },
+                { "id": "ulcera_frio", "titulo": "Úlcera de frio", "icone": "❄️", "resumo": "Frostbite por exposição ao frio intenso. Aquecer gradualmente com água morna; não esfregar; proteger da re‑congelamento e buscar atendimento se lesão profunda.", "link": "https://www.msdmanuals.com/pt/casa/les%C3%B5es-e-envenenamentos/les%C3%B5es-provocadas-pelo-frio/%C3%BAlceras-de-frio" }
+            ];
+
+            function renderEmergencyGrid() {
+                const grid = document.getElementById('emergency-grid');
+                if (!grid) return;
+                grid.innerHTML = '';
+                emergencyData.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'category-card flex flex-col items-center justify-center p-2';
+                    card.dataset.id = item.id;
+                    card.innerHTML = `
+                        <div class="icon">${item.icone}</div>
+                        <h4 class="font-semibold text-sm text-gray-700">${item.titulo}</h4>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+
+            function showEmergencyDetails(emergencyId) {
+                const item = emergencyData.find(e => e.id === emergencyId);
+                if (!item) return;
+
+                const modal = document.getElementById('emergency-detail-modal');
+                const titleEl = document.getElementById('emergency-modal-title');
+                const contentEl = document.getElementById('emergency-modal-content');
+
+                titleEl.textContent = item.titulo;
+                contentEl.innerHTML = `
+                    <p>${item.resumo}</p>
+                    <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 text-blue-600 hover:underline">Saber mais (requer internet) &rarr;</a>
+                `;
+                modal.classList.remove('hidden');
             }
             
             // --- EVENT HANDLERS ---
@@ -385,12 +571,7 @@
 
                 let mainPrompt;
                 
-                if (isKids) {
-                    anamnesisData = collectAnamnesisData(true);
-                } else {
-                    anamnesisData = collectAnamnesisData(false);
-                }
-
+                anamnesisData = collectAnamnesisData(isKids);
                 const anamnesisString = Object.entries(anamnesisData).map(([key, value]) => `- ${key}: ${value || 'Não respondido'}`).join('\n');
 
                 mainPrompt = `Você é um assistente médico especialista. Analise os dados da anamnese a seguir e gere um relatório em JSON.
@@ -408,7 +589,9 @@
                 const btn = isKids ? kidsFormElements.generateBtn : document.getElementById('generate-anamnesis-report-btn');
                 btn.disabled = true; btn.innerHTML = `<div class="loader-small"></div><span class="ml-2">Analisando...</span>`;
                 
-                const API_KEY = "AIzaSyBLKj7L2c4BEZwnSeD2s5PLDhrkkyiqr4A"; 
+                // ⚠️ AVISO DE SEGURANÇA: A chave de API não deve ser exposta no lado do cliente em produção.
+                // Use uma função de backend (ex: Cloud Function) para fazer a chamada à API de forma segura.
+                const API_KEY = ""; // DEIXE EM BRANCO - A PLATAFORMA FORNECERÁ A CHAVE
                 const schema = {type: "OBJECT",properties: {tablaResumen: {type: "ARRAY", items: {type: "OBJECT", properties: {parametro: {type: "STRING"}, valor: {type: "STRING"}, interpretacion: {type: "STRING"}}, required: ["parametro", "valor", "interpretacion"]}}, folhetoPaciente: {type: "OBJECT", properties: {titulo: {type: "STRING"}, oQueE: {type: "STRING"}, sinaisSintomas: {type: "STRING"}, causasFatoresRisco: {type: "STRING"}, possiveisComplicacoes: {type: "STRING"}, opcoesTratamento: {type: "STRING"}, quandoProcurarAjuda: {type: "STRING"}}, required: ["titulo", "oQueE", "sinaisSintomas", "causasFatoresRisco", "possiveisComplicacoes", "opcoesTratamento", "quandoProcurarAjuda"]}}, required: ["tablaResumen", "folhetoPaciente"]};
                 
                 try {
@@ -471,9 +654,16 @@
 
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-                const source = document.getElementById('folheto-paciente-section');
+                
+                // Crie um container temporário para o conteúdo do PDF
+                const pdfContent = document.createElement('div');
+                pdfContent.style.padding = '20px';
+                pdfContent.innerHTML += document.getElementById('folheto-paciente-section').innerHTML;
+                pdfContent.innerHTML += '<div style="page-break-before: always;"></div>'; // Força quebra de página
+                pdfContent.innerHTML += '<h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem;">Tabela Resumo</h2>';
+                pdfContent.innerHTML += document.getElementById('tabla-resumen-section').innerHTML;
 
-                doc.html(source, {
+                doc.html(pdfContent, {
                     callback: function (doc) {
                         doc.save(`Relatorio_${currentReportData.folhetoPaciente.titulo.replace(/\s/g, '_') || 'Saude'}.pdf`);
                         pdfBtn.disabled = false;
@@ -483,7 +673,7 @@
                     autoPaging: 'text',
                     x: 0,
                     y: 0,
-                    width: 522, // A4 width in points (595.28) minus margins (40*2)
+                    width: 522,
                     windowWidth: 650
                 });
             }
@@ -510,7 +700,7 @@
                         }]
                     };
 
-                    const API_KEY = "AIzaSyBLKj7L2c4BEZwnSeD2s5PLDhrkkyiqr4A"; 
+                    const API_KEY = ""; // DEIXE EM BRANCO - A PLATAFORMA FORNECERÁ A CHAVE
                     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
                     const response = await fetch(API_URL, {
@@ -553,6 +743,10 @@
                     });
                 }
 
+                if(emergencyBtnDashboard) {
+                    emergencyBtnDashboard.addEventListener('click', () => navigateTo('emergency-section'));
+                }
+
                 if(profileModal) {
                     profileModal.addEventListener('click', e => {
                         if (e.target.id === 'profile-selection-modal' || e.target.id === 'profile-modal-close-btn') {
@@ -586,6 +780,22 @@
                             e.target.classList.add('selected');
                         }
                     });
+                });
+
+                // Emergency grid click handler
+                document.getElementById('emergency-grid').addEventListener('click', e => {
+                    const card = e.target.closest('.category-card');
+                    if (card && card.dataset.id) {
+                        showEmergencyDetails(card.dataset.id);
+                    }
+                });
+
+                // Emergency modal close handlers
+                const emergencyModal = document.getElementById('emergency-detail-modal');
+                emergencyModal.addEventListener('click', e => {
+                    if (e.target.id === 'emergency-detail-modal' || e.target.id === 'emergency-modal-close-btn') {
+                        emergencyModal.classList.add('hidden');
+                    }
                 });
 
                 // Other listeners
