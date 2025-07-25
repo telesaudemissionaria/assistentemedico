@@ -30,15 +30,15 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .tab-btn.active { border-bottom-color: #881337; color: #881337; font-weight: 600; }
-        .patient-handout h3, .emergency-details h3, .help-section h3, .anamnesis-section h3 { font-size: 1.125rem; font-weight: 700; color: #4b5563; margin-top: 1.25rem; margin-bottom: 0.5rem; padding-bottom: 0.25rem; border-bottom: 1px solid #e5e7eb; }
-        .patient-handout p, .emergency-details p, .emergency-details li, .help-section p, .anamnesis-section p { line-height: 1.6; margin-bottom: 0.75rem; }
+        .patient-handout h3, .emergency-details h3, .help-section h3, .anamnesis-section h3, #legal-modal-content h3 { font-size: 1.125rem; font-weight: 700; color: #4b5563; margin-top: 1.25rem; margin-bottom: 0.5rem; padding-bottom: 0.25rem; border-bottom: 1px solid #e5e7eb; }
+        .patient-handout p, .emergency-details p, .emergency-details li, .help-section p, .anamnesis-section p, #legal-modal-content p, #legal-modal-content li { line-height: 1.6; margin-bottom: 0.75rem; }
         .patient-handout .disclaimer { font-size: 0.875rem; font-style: italic; color: #6b7280; margin-top: 1.5rem; padding-top: 0.75rem; border-top: 1px solid #e5e7eb; }
         .info-card { background-color: white; border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); }
         .category-card { border-radius: 1rem; padding: 1rem; text-align: center; transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer; border: 1px solid #e5e7eb; }
         .category-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); }
         .category-card .icon { font-size: 2.5rem; line-height: 1; margin-bottom: 0.5rem; }
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 50; backdrop-filter: blur(4px); transition: opacity 0.3s ease; }
-        .modal-content { background: white; padding: 2rem; border-radius: 0.75rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; transform: scale(0.95); transition: transform 0.3s ease; }
+        .modal-content { background: white; padding: 2rem; border-radius: 0.75rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; transform: scale(0.95); transition: transform 0.3s ease; }
         .modal-overlay:not(.hidden) .modal-content { transform: scale(1); }
         .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; background-color: #eef2ff; color: #4338ca; font-weight: 600; font-size: 0.875rem; padding: 0.5rem 1rem; border-radius: 9999px; transition: background-color 0.2s; }
         .back-btn:hover { background-color: #e0e7ff; }
@@ -100,19 +100,100 @@
         </div>
     </div>
 
+    <!-- Modal de Informações Legais -->
+    <div id="legal-modal" class="modal-overlay hidden no-print">
+        <div id="legal-modal-content" class="modal-content text-gray-700">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Informações Importantes</h2>
+            <div>
+                <h3 class="font-bold text-lg text-gray-800 mb-2">DISCLAIMER (AVISO LEGAL)</h3>
+                <p class="font-bold mb-2">IMPORTANTE:</p>
+                <p class="mb-2">O aplicativo ASSISTENTE MÉDICO é um serviço de orientação em saúde prestado por meio de telemedicina com propósito estritamente missionário, social e educativo. As informações, orientações e atendimentos fornecidos não substituem, em hipótese alguma, uma consulta presencial com médico ou profissional de saúde qualificado.</p>
+                <h4 class="font-semibold text-gray-800 mb-1">Limitações do Serviço:</h4>
+                <ul class="list-disc list-inside space-y-1 mb-2">
+                    <li>As informações fornecidas são baseadas nos dados informados pelo próprio usuário e podem não refletir todas as condições de saúde do paciente.</li>
+                    <li>O serviço não realiza consultas presenciais, exames físicos completos, prescrições de medicamentos controlados ou atendimentos de emergência.</li>
+                    <li>Em caso de emergência médica, ligue imediatamente para os serviços de emergência locais ou procure o hospital mais próximo.</li>
+                </ul>
+                <h4 class="font-semibold text-gray-800 mb-1">Responsabilidade:</h4>
+                <ul class="list-disc list-inside space-y-1 mb-2">
+                    <li>O uso do Aplicativo é de responsabilidade exclusiva do usuário.</li>
+                    <li>A equipe missionária e os profissionais de saúde envolvidos não se responsabilizam por eventuais consequências decorrentes de informações incompletas, uso inadequado do aplicativo ou decisões tomadas exclusivamente com base nas orientações fornecidas.</li>
+                    <li>O usuário declara estar ciente de que os atendimentos são realizados por voluntários capacitados, podendo envolver limitações técnicas, de idioma ou de acesso à tecnologia.</li>
+                </ul>
+                 <h4 class="font-semibold text-gray-800 mb-1">Consentimento:</h4>
+                <ul class="list-disc list-inside space-y-1">
+                    <li>Ao utilizar o Aplicativo, o usuário declara ter lido, entendido e aceitado este Aviso Legal, bem como a Política de Privacidade.</li>
+                    <li>O uso do Aplicativo implica aceitação expressa dos riscos e limitações descritos.</li>
+                </ul>
+            </div>
+            <div class="mt-6">
+                <h3 class="font-bold text-lg text-gray-800 mb-2">POLÍTICA DE PRIVACIDADE</h3>
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-1">1. Coleta de Dados Pessoais</h4>
+                        <p>Coletamos apenas as informações pessoais estritamente necessárias para prestar serviços de orientação em saúde, como nome, idade, gênero, dados de contato e histórico médico informado voluntariamente pelo usuário. Não solicitamos informações excessivas ou desnecessárias.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-1">2. Uso dos Dados</h4>
+                        <p class="mb-1">Seus dados são utilizados exclusivamente para:</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Prestação de orientações em saúde via telemedicina;</li>
+                            <li>Registro de atendimentos para fins estatísticos, de auditoria e aprimoramento do serviço;</li>
+                            <li>Cumprimento de obrigações legais e regulatórias.</li>
+                        </ul>
+                         <p class="mt-2">Não utilizamos os dados para fins comerciais, publicitários ou de venda a terceiros.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-1">3. Compartilhamento de Dados</h4>
+                        <p class="mb-1">Os dados podem ser compartilhados, de forma segura e restrita, apenas com:</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Profissionais de saúde autorizados e diretamente envolvidos no atendimento;</li>
+                            <li>Autoridades de saúde pública, em caso de obrigações legais ou emergências epidemiológicas;</li>
+                            <li>Plataformas tecnológicas parceiras, apenas para viabilizar a operação técnica do Aplicativo, observando padrões de segurança e confidencialidade.</li>
+                        </ul>
+                         <p class="mt-2">Jamais vendemos, alugamos ou divulgamos seus dados a terceiros não autorizados.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-1">4. Armazenamento e Segurança</h4>
+                        <p>Adotamos medidas técnicas e administrativas para proteger seus dados contra acessos não autorizados, perda, alteração ou destruição. Os dados são armazenados de forma criptografada e segura, pelo tempo necessário para a prestação do serviço ou cumprimento de exigências legais.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-1">5. Direitos do Usuário</h4>
+                        <p class="mb-1">Você tem direito a:</p>
+                        <ul class="list-disc list-inside space-y-1">
+                           <li>Solicitar acesso, retificação, correção ou exclusão dos seus dados pessoais;</li>
+                           <li>Revogar o consentimento para o uso dos seus dados, quando aplicável, sem prejuízo da legalidade do tratamento anterior;</li>
+                           <li>Obter informações sobre o uso e tratamento dos seus dados.</li>
+                        </ul>
+                        <p class="mt-2">Para exercer esses direitos, entre em contato pelo canal: missionarymedicalcare@gmail.com.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-1">6. Transferência Internacional de Dados</h4>
+                        <p>Caso haja transferência de dados para outros países, garantimos que isso será feito conforme a legislação aplicável e com salvaguardas adequadas de segurança e privacidade.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-1">7. Atualizações</h4>
+                        <p>Esta Política poderá ser atualizada a qualquer momento, mediante aviso prévio pelo Aplicativo.</p>
+                    </div>
+                </div>
+            </div>
+            <button id="legal-modal-close-btn" class="mt-8 w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg">Fechar</button>
+        </div>
+    </div>
+
     <div class="container mx-auto p-4 md:p-6 max-w-4xl">
         <main>
             <!-- SEÇÃO PRINCIPAL (DASHBOARD) -->
             <div id="dashboard-section" class="page-section active space-y-6">
                 <div class="info-card text-center">
-                    <h1 class="text-2xl font-bold text-rose-900">Cuidando de quem cuida</h1>
+                    <h1 class="text-2xl font-bold text-blue-900">Cuidando de quem cuida</h1>
                     <p class="mt-2 text-gray-600">Sua ferramenta de apoio à saúde no campo missionário.</p>
-                    <button id="start-assessment-btn" class="mt-6 w-full max-w-sm mx-auto bg-rose-800 hover:bg-rose-700 text-white font-bold py-4 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
+                    <button id="start-assessment-btn" class="mt-6 w-full max-w-sm mx-auto bg-blue-800 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
                         Iniciar Avaliação de Sintomas
                     </button>
                 </div>
 
-                <!-- NOVO BOTÃO DE EMERGÊNCIA -->
+                <!-- BOTÃO DE EMERGÊNCIA -->
                 <div class="info-card bg-red-600 text-white text-center cursor-pointer hover:bg-red-700 transition-colors" id="emergency-btn-dashboard">
                     <div class="flex items-center justify-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
@@ -252,7 +333,7 @@
                  <h2 class="text-2xl font-semibold mb-4">Assistente Médico IA</h2>
                  <p class="text-xs text-gray-400 mb-4">As respostas são geradas por IA e precisam de validação profissional.</p>
                  <div class="mb-4">
-                     <label for="ai-prompt-input" class="block text-sm font-medium text-gray-700 mb-2">Faça uma pergunta médica (ex: "Quais os sintomas de dengue?"):</label>
+                     <label for="ai-prompt-input" class="block text-sm font-medium text-gray-700 mb-2">Faça uma pergunta médica (ex: "Quais os sintomas de dengue?", "Meu filho está com febre alta, o que fazer?", "Como tratar uma queimadura leve?"):</label>
                      <textarea id="ai-prompt-input" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
                  </div>
                 <button id="ai-generate-btn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out flex items-center justify-center">
@@ -313,86 +394,12 @@
                    <div id="tabla-resumen-section" class="tab-content overflow-x-auto"></div>
                </div>
         </main>
-    </div>
-
-    <!-- NOVA SEÇÃO DE RODAPÉ LEGAL -->
-    <footer id="legal-footer" class="no-print bg-gray-800 text-gray-400 text-xs py-8 px-4 mt-8">
-        <div class="container mx-auto max-w-4xl space-y-6">
-            <div>
-                <h2 class="font-bold text-sm text-white mb-2">DISCLAIMER (AVISO LEGAL)</h2>
-                <p class="font-bold mb-2">IMPORTANTE:</p>
-                <p class="mb-2">O aplicativo ASSISTENTE MÉDICO é um serviço de orientação em saúde prestado por meio de telemedicina com propósito estritamente missionário, social e educativo. As informações, orientações e atendimentos fornecidos não substituem, em hipótese alguma, uma consulta presencial com médico ou profissional de saúde qualificado.</p>
-                <h3 class="font-semibold text-gray-200 mb-1">Limitações do Serviço:</h3>
-                <ul class="list-disc list-inside space-y-1 mb-2">
-                    <li>As informações fornecidas são baseadas nos dados informados pelo próprio usuário e podem não refletir todas as condições de saúde do paciente.</li>
-                    <li>O serviço não realiza consultas presenciais, exames físicos completos, prescrições de medicamentos controlados ou atendimentos de emergência.</li>
-                    <li>Em caso de emergência médica, ligue imediatamente para os serviços de emergência locais ou procure o hospital mais próximo.</li>
-                </ul>
-                <h3 class="font-semibold text-gray-200 mb-1">Responsabilidade:</h3>
-                <ul class="list-disc list-inside space-y-1 mb-2">
-                    <li>O uso do Aplicativo é de responsabilidade exclusiva do usuário.</li>
-                    <li>A equipe missionária e os profissionais de saúde envolvidos não se responsabilizam por eventuais consequências decorrentes de informações incompletas, uso inadequado do aplicativo ou decisões tomadas exclusivamente com base nas orientações fornecidas.</li>
-                    <li>O usuário declara estar ciente de que os atendimentos são realizados por voluntários capacitados, podendo envolver limitações técnicas, de idioma ou de acesso à tecnologia.</li>
-                </ul>
-                 <h3 class="font-semibold text-gray-200 mb-1">Consentimento:</h3>
-                <ul class="list-disc list-inside space-y-1">
-                    <li>Ao utilizar o Aplicativo, o usuário declara ter lido, entendido e aceitado este Aviso Legal, bem como a Política de Privacidade.</li>
-                    <li>O uso do Aplicativo implica aceitação expressa dos riscos e limitações descritos.</li>
-                </ul>
-            </div>
-            <div>
-                <h2 class="font-bold text-sm text-white mb-2">POLÍTICA DE PRIVACIDADE</h2>
-                <div class="space-y-4">
-                    <div>
-                        <h3 class="font-semibold text-gray-200 mb-1">1. Coleta de Dados Pessoais</h3>
-                        <p>Coletamos apenas as informações pessoais estritamente necessárias para prestar serviços de orientação em saúde, como nome, idade, gênero, dados de contato e histórico médico informado voluntariamente pelo usuário. Não solicitamos informações excessivas ou desnecessárias.</p>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-200 mb-1">2. Uso dos Dados</h3>
-                        <p class="mb-1">Seus dados são utilizados exclusivamente para:</p>
-                        <ul class="list-disc list-inside space-y-1">
-                            <li>Prestação de orientações em saúde via telemedicina;</li>
-                            <li>Registro de atendimentos para fins estatísticos, de auditoria e aprimoramento do serviço;</li>
-                            <li>Cumprimento de obrigações legais e regulatórias.</li>
-                        </ul>
-                         <p class="mt-2">Não utilizamos os dados para fins comerciais, publicitários ou de venda a terceiros.</p>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-200 mb-1">3. Compartilhamento de Dados</h3>
-                        <p class="mb-1">Os dados podem ser compartilhados, de forma segura e restrita, apenas com:</p>
-                        <ul class="list-disc list-inside space-y-1">
-                            <li>Profissionais de saúde autorizados e diretamente envolvidos no atendimento;</li>
-                            <li>Autoridades de saúde pública, em caso de obrigações legais ou emergências epidemiológicas;</li>
-                            <li>Plataformas tecnológicas parceiras, apenas para viabilizar a operação técnica do Aplicativo, observando padrões de segurança e confidencialidade.</li>
-                        </ul>
-                         <p class="mt-2">Jamais vendemos, alugamos ou divulgamos seus dados a terceiros não autorizados.</p>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-200 mb-1">4. Armazenamento e Segurança</h3>
-                        <p>Adotamos medidas técnicas e administrativas para proteger seus dados contra acessos não autorizados, perda, alteração ou destruição. Os dados são armazenados de forma criptografada e segura, pelo tempo necessário para a prestação do serviço ou cumprimento de exigências legais.</p>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-200 mb-1">5. Direitos do Usuário</h3>
-                        <p class="mb-1">Você tem direito a:</p>
-                        <ul class="list-disc list-inside space-y-1">
-                           <li>Solicitar acesso, retificação, correção ou exclusão dos seus dados pessoais;</li>
-                           <li>Revogar o consentimento para o uso dos seus dados, quando aplicável, sem prejuízo da legalidade do tratamento anterior;</li>
-                           <li>Obter informações sobre o uso e tratamento dos seus dados.</li>
-                        </ul>
-                        <p class="mt-2">Para exercer esses direitos, entre em contato pelo canal: missionarymedicalcare@gmail.com.</p>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-200 mb-1">6. Transferência Internacional de Dados</h3>
-                        <p>Caso haja transferência de dados para outros países, garantimos que isso será feito conforme a legislação aplicável e com salvaguardas adequadas de segurança e privacidade.</p>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-200 mb-1">7. Atualizações</h3>
-                        <p>Esta Política poderá ser atualizada a qualquer momento, mediante aviso prévio pelo Aplicativo.</p>
-                    </div>
-                </div>
-            </div>
+        
+        <!-- Botão para abrir o modal legal -->
+        <div class="text-center mt-8 no-print">
+            <button id="open-legal-modal-btn" class="text-sm text-gray-500 hover:text-gray-700 underline">Aviso Legal & Política de Privacidade</button>
         </div>
-    </footer>
+    </div>
 
     <!-- BARRA DE NAVEGAÇÃO INFERIOR -->
     <footer class="bottom-nav no-print">
@@ -489,25 +496,25 @@
 
             // --- EMERGENCY GUIDE LOGIC ---
             const emergencyData = [
-                { "id": "afogamento", "titulo": "Afogamento", "icone": "💧", "resumo": "Submersão em líquido causa hipóxia e risco a órgãos vitais. Socorro inicial: desobstruir vias aéreas, iniciar RCP (30:2), colocar em decúbito lateral se respirando, aquecer conforme necessário.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/afogamento/afogamento" },
-                { "id": "choque", "titulo": "Choque", "icone": "⚡️", "resumo": "Falência circulatória aguda com baixa perfusão tecidual. Socorro inicial: deitar com elevação das pernas, cobrir com cobertor, evitar movimentação brusca e buscar socorro médico.", "link": "https://www.msdmanuals.com/pt/casa/distúrbios-do-coração-e-dos-vasos-sanguíneos/hipotensão-arterial-e-choque/choque" },
-                { "id": "doenca_altitude", "titulo": "Doença da altitude", "icone": "🏔️", "resumo": "Cefaleia, náusea, fadiga e falta de ar por baixa pressão de oxigênio. Recomenda-se descer a altitude inferior, hidratar-se e descansar; evacuar se grave.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/doença-da-altitude/doença-da-altitude" },
-                { "id": "entorses_estiramentos", "titulo": "Entorses e estiramentos", "icone": "🤕", "resumo": "Lesão ligamentar ou muscular por torção. Aplicar técnica RICE: descanso, gelo, compressão e elevação; imobilizar e evitar sobrecarga.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/lesões-dos-tecidos-moles" },
-                { "id": "feridas", "titulo": "Feridas", "icone": "🩹", "resumo": "Cortes ou lacerações. Limpar com água, desinfetar, aplicar pressão para estancar sangramento e cobrir com curativo estéril. Observar sinais de infecção.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/feridas" },
-                { "id": "fraturas", "titulo": "Fraturas", "icone": "🦴", "resumo": "Quebra óssea com dor, inchaço ou deformidade. Imobilizar com talas improvisadas, aplicar gelo, evitar movimentar e buscar atendimento médico.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/fraturas/considerações-gerais-sobre-fraturas" },
-                { "id": "insolacao", "titulo": "Insolação", "icone": "☀️", "resumo": "Golpe de calor com febre alta, confusão ou inconsciência. Levar a vítima a local fresco, hidratar, aplicar compressas frias e buscar ajuda imediata.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/distúrbios-causados-pelo-calor/insolação" },
-                { "id": "eletricidade", "titulo": "Lesões por eletricidade", "icone": "🔌", "resumo": "Choque elétrico pode causar queimaduras, convulsões ou parada cardíaca. Desligar fonte, só tocar após isolamento; se inconsciente ou sem pulso, iniciar RCP.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-por-eletricidade-e-raios/lesões-provocadas-pela-eletricidade" },
-                { "id": "raios", "titulo": "Lesões por raios", "icone": "🌩️", "resumo": "Descarga elétrica atmosférica pode provocar queimaduras e parada cardíaca. Afaste a vítima da zona de risco, trate feridas e inicie RCP se necessário.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-por-eletricidade-e-raios/lesões-provocadas-por-raios" },
-                { "id": "mordida_humana", "titulo": "Mordida humana", "icone": "😬", "resumo": "Risco de infeção bacteriana. Lavar com água e sabão, aplicar antisséptico, cobrir e buscar avaliação médica para possível profilaxia.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordida-humana" },
-                { "id": "mordida_animal", "titulo": "Mordida de animal", "icone": "🐾", "resumo": "Mordidas podem transmitir raiva ou infeção. Lavar bem, desinfetar, cobrir e procurar atendimento médico para vacina ou soro.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordidas-de-animais" },
-                { "id": "mordida_serpente", "titulo": "Mordida de serpente", "icone": "🐍", "resumo": "Veneno pode causar necrose, choque ou neurotoxicidade. Manter vítima calma, imobilizada e buscar socorro urgente. Evitar torniquetes ou sucção.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordidas-de-serpentes" },
-                { "id": "obstrucao_respiratoria", "titulo": "Obstrução das vias respiratórias", "icone": "😮", "resumo": "Objeto bloqueando traqueia pode causar asfixia. Aplicar manobra de Heimlich em adultos; em bebês, tapas nas costas e compressões torácicas; iniciar RCP se inconsciente.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/obstrução-das-vias-respiratórias" },
-                { "id": "queimadura_quimica_olho", "titulo": "Queimadura química nos olhos", "icone": "👁️", "resumo": "Substância corrosiva nos olhos. Lavar com água corrente por pelo menos 15 minutos sem esfregar, cobrir e buscar atendimento oftalmológico urgente.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-oculares/queimaduras-no-olho" },
-                { "id": "parada_cardiaca", "titulo": "Parada cardíaca", "icone": "❤️‍🩹", "resumo": "Interrupção súbita da circulação sanguínea. Verificar pulso, chamar ajuda, iniciar RCP 30:2 imediatamente. Desfibrilar se disponível.", "link": "https://www.msdmanuals.com/pt/casa/distúrbios-do-coração-e-dos-vasos-sanguíneos/parada-cardíaca-e-reanimação-cardiopulmonar-rcp/parada-cardíaca-e-reanimação-cardiopulmonar-rcp" },
-                { "id": "picadas_insetos", "titulo": "Picadas de insetos", "icone": "🐝", "resumo": "Reação alérgica possível (anafilaxia). Remover ferrão sem espremer, lavar local, aplicar compressa fria e observar sinais de reação grave como inchaço facial ou dificuldade respiratória.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/picadas-de-abelhas-vespas-vespões-e-formigas" },
-                { "id": "prioridades_primeiros_socorros", "titulo": "Prioridades dos Primeiros Socorros", "icone": "🚑", "resumo": "Avaliação ABC: A (vias aéreas), B (respiração), C (circulação). Verifique sinais vitais e priorize ações vitais conforme necessidade.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/prioridades-dos-primeiros-socorros-de-emergência" },
-                { "id": "queimaduras", "titulo": "Queimaduras", "icone": "🔥", "resumo": "Queimaduras por calor, químicos ou radiação. Resfriar com água corrente por 10‑20 min; cobrir com pano limpo e úmido; não aplicar substâncias caseiras; buscar socorro em casos graves.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/queimaduras/inalação-de-fumaça" },
-                { "id": "ulcera_frio", "titulo": "Úlcera de frio", "icone": "❄️", "resumo": "Frostbite por exposição ao frio intenso. Aquecer gradualmente com água morna; não esfregar; proteger da re‑congelamento e buscar atendimento se lesão profunda.", "link": "https://www.msdmanuals.com/pt/casa/les%C3%B5es-e-envenenamentos/les%C3%B5es-provocadas-pelo-frio/%C3%BAlceras-de-frio" }
+                { "id": "afogamento", "titulo": "Afogamento", "icone": "💧", "resumo": "Em caso de afogamento, o mais importante é tirar rapidamente a vítima da água, abrir as vias aéreas e verificar se está respirando. Se não respirar, faça duas respirações boca a boca e, se necessário, inicie massagem cardíaca imediatamente. Sempre leve a vítima para o hospital, mesmo que pareça bem após o incidente.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/afogamento/afogamento" },
+                { "id": "choque", "titulo": "Choque", "icone": "⚡️", "resumo": "No choque, o sangue não circula bem, causando baixa oxigenação dos órgãos. Coloque a vítima deitada, levante as pernas para ajudar a circulação, e procure atendimento médico urgente. Não dê líquidos ou alimentos à vítima até avaliação médica.", "link": "https://www.msdmanuals.com/pt/casa/distúrbios-do-coração-e-dos-vasos-sanguíneos/hipotensão-arterial-e-choque/choque" },
+                { "id": "doenca_altitude", "titulo": "Doença da altitude", "icone": "🏔️", "resumo": "Surge quando se sobe rapidamente para altitudes elevadas. A vítima pode ter dor de cabeça, tontura e falta de ar. O melhor tratamento é descer imediatamente para altitudes mais baixas e descansar. Se sintomas piorarem, procure assistência médica.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/doença-da-altitude/doença-da-altitude" },
+                { "id": "entorses_estiramentos", "titulo": "Entorses e estiramentos", "icone": "🤕", "resumo": "São lesões musculares ou ligamentares leves. Aplique gelo, mantenha a área elevada, repouse e use compressão com faixa elástica. Procure avaliação médica caso persista a dor ou inchaço após alguns dias.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/lesões-dos-tecidos-moles" },
+                { "id": "feridas", "titulo": "Feridas", "icone": "🩹", "resumo": "Lave com água limpa e sabão suave, seque e cubra com gaze ou curativo limpo. Em caso de feridas profundas, vá ao hospital para avaliação.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/feridas" },
+                { "id": "fraturas", "titulo": "Fraturas", "icone": "🦴", "resumo": "Imobilize a área afetada com uma tala improvisada (madeira ou papelão) e procure assistência médica imediatamente. Não tente colocar o osso de volta no lugar.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/fraturas/considerações-gerais-sobre-fraturas" },
+                { "id": "insolacao", "titulo": "Insolação", "icone": "☀️", "resumo": "Leve a vítima para local fresco, retire roupas apertadas e dê bastante água para beber. Resfrie o corpo com toalhas úmidas ou banho frio. Caso não melhore, busque atendimento médico.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/distúrbios-causados-pelo-calor/insolação" },
+                { "id": "eletricidade", "titulo": "Lesões por eletricidade", "icone": "🔌", "resumo": "Não toque na vítima enquanto estiver em contato com eletricidade. Corte a energia ou afaste a vítima usando material isolante (madeira seca ou plástico). Chame socorro médico urgente.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-por-eletricidade-e-raios/lesões-provocadas-pela-eletricidade" },
+                { "id": "raios", "titulo": "Lesões por raios", "icone": "🌩️", "resumo": "Procure abrigo imediatamente. Caso alguém seja atingido, comece ressuscitação cardíaca imediatamente e chame ajuda médica.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-provocadas-por-eletricidade-e-raios/lesões-provocadas-por-raios" },
+                { "id": "mordida_humana", "titulo": "Mordida humana", "icone": "😬", "resumo": "Lave muito bem a mordida com água e sabão, cubra com curativo limpo e procure atendimento médico, pois há alto risco de infecção.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordida-humana" },
+                { "id": "mordida_animal", "titulo": "Mordida de animal", "icone": "🐾", "resumo": "Lave imediatamente com água e sabão. Vá ao médico para avaliação do risco de raiva e necessidade de antibióticos.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordidas-de-animais" },
+                { "id": "mordida_serpente", "titulo": "Mordida de serpente", "icone": "🐍", "resumo": "Mantenha a vítima imóvel, lave o local com água e sabão e vá imediatamente ao hospital. Não faça torniquete nem cortes no local da mordida.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/mordidas-de-serpentes" },
+                { "id": "obstrucao_respiratoria", "titulo": "Obstrução das vias respiratórias", "icone": "😮", "resumo": "Se a pessoa estiver engasgada e consciente, faça a manobra de Heimlich: pressione o abdômen com força acima do umbigo até que o objeto saia. Se inconsciente, chame socorro médico e comece compressões torácicas.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/obstrução-das-vias-respiratórias" },
+                { "id": "queimadura_quimica_olho", "titulo": "Queimadura química nos olhos", "icone": "👁️", "resumo": "Lave imediatamente o olho com bastante água corrente por pelo menos 20 minutos. Vá ao hospital urgentemente após lavagem inicial.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/lesões-oculares/queimaduras-no-olho" },
+                { "id": "parada_cardiaca", "titulo": "Parada cardíaca", "icone": "❤️‍🩹", "resumo": "Chame socorro imediatamente, inicie compressões cardíacas rápidas e fortes no meio do peito da vítima. Use desfibrilador externo automático (DEA) assim que disponível.", "link": "https://www.msdmanuals.com/pt/casa/distúrbios-do-coração-e-dos-vasos-sanguíneos/parada-cardíaca-e-reanimação-cardiopulmonar-rcp/parada-cardíaca-e-reanimação-cardiopulmonar-rcp" },
+                { "id": "picadas_insetos", "titulo": "Picadas de insetos", "icone": "🐝", "resumo": "Remova cuidadosamente o ferrão raspando com objeto reto. Aplique gelo no local. Se houver alergia ou reação grave, busque assistência médica imediatamente.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/mordidas-e-picadas/picadas-de-abelhas-vespas-vespões-e-formigas" },
+                { "id": "prioridades_primeiros_socorros", "titulo": "Prioridades dos Primeiros Socorros", "icone": "🚑", "resumo": "As prioridades são garantir a segurança do local, verificar respiração e circulação, iniciar RCP se necessário e chamar ajuda médica urgente.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/primeiros-socorros/prioridades-dos-primeiros-socorros-de-emergência" },
+                { "id": "queimaduras", "titulo": "Queimaduras", "icone": "🔥", "resumo": "Resfrie imediatamente com água fria (não gelo). Cubra com pano limpo e procure atendimento médico caso seja grave ou extensa.", "link": "https://www.msdmanuals.com/pt/casa/lesões-e-envenenamentos/queimaduras/inalação-de-fumaça" },
+                { "id": "ulcera_frio", "titulo": "Úlcera de frio", "icone": "❄️", "resumo": "Remova roupas molhadas e aqueça gradualmente a vítima com cobertores ou banho morno. Não esfregue a área congelada. Busque atendimento médico assim que possível.", "link": "https://www.msdmanuals.com/pt/casa/les%C3%B5es-e-envenenamentos/les%C3%B5es-provocadas-pelo-frio/%C3%BAlcera-de-frio" }
             ];
 
             function renderEmergencyGrid() {
@@ -797,6 +804,18 @@
                         emergencyModal.classList.add('hidden');
                     }
                 });
+
+                // Legal Modal Handlers
+                const legalModal = document.getElementById('legal-modal');
+                document.getElementById('open-legal-modal-btn').addEventListener('click', () => {
+                    legalModal.classList.remove('hidden');
+                });
+                legalModal.addEventListener('click', e => {
+                    if (e.target.id === 'legal-modal' || e.target.id === 'legal-modal-close-btn') {
+                        legalModal.classList.add('hidden');
+                    }
+                });
+
 
                 // Other listeners
                 const pdfBtn = document.getElementById('pdf-report-btn');
